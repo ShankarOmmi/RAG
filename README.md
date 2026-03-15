@@ -12,8 +12,9 @@ The interface is built using **Streamlit** for quick interaction.
 
 Run the application locally and open:
 
+```
 http://localhost:8501
-
+```
 
 Workflow:
 
@@ -27,32 +28,33 @@ Workflow:
 
 The system follows a basic **Retrieval-Augmented Generation pipeline**.
 
+```
 YouTube URL
-│
-▼
+   │
+   ▼
 Transcript Extraction
-│
-▼
+   │
+   ▼
 Text Chunking
-│
-▼
+   │
+   ▼
 Embeddings (Sentence Transformers)
-│
-▼
+   │
+   ▼
 Vector Store (FAISS)
-│
-▼
+   │
+   ▼
 Retriever
-│
-▼
+   │
+   ▼
 Prompt Template
-│
-▼
+   │
+   ▼
 LLM (HuggingFace)
-│
-▼
+   │
+   ▼
 Answer
-
+```
 
 ---
 
@@ -68,16 +70,16 @@ Answer
 
 ## Project Structure
 
+```
 YoutubeChat
 │
-├── app.py # Streamlit UI
-├── rag_pipeline.py # RAG pipeline
-├── youtube_utils.py # YouTube transcript extraction
-├── config.py # Configuration parameters
+├── app.py            # Streamlit UI
+├── rag_pipeline.py   # RAG pipeline
+├── youtube_utils.py  # YouTube transcript extraction
+├── config.py         # Configuration parameters
 ├── requirements.txt
 └── README.md
-
-
+```
 
 ---
 
@@ -88,6 +90,117 @@ YoutubeChat
 ```bash
 git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
 cd YoutubeChat
+```
 
+---
 
-2. Create virtual environment
+### 2. Create virtual environment
+
+```bash
+python -m venv .venv
+```
+
+Activate environment
+
+**Windows**
+
+```bash
+.venv\Scripts\activate
+```
+
+**Mac/Linux**
+
+```bash
+source .venv/bin/activate
+```
+
+---
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4. Add HuggingFace API Key
+
+Create a `.env` file:
+
+```
+HUGGINGFACEHUB_API_TOKEN=your_token_here
+```
+
+Make sure `.env` is included in `.gitignore`.
+
+---
+
+### 5. Run the application
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## Possible Improvements
+
+This project implements a **basic RAG system** and can be extended using more advanced techniques.
+
+### Evaluation
+- Ragas
+- LangSmith
+
+### Indexing
+- Better document ingestion
+- Semantic text splitting
+- Scalable vector databases (Pinecone, Weaviate)
+
+### Retrieval
+
+**Pre-Retrieval**
+- Query rewriting
+- Multi-query generation
+- Domain-aware routing
+
+**During Retrieval**
+- MMR (Maximum Marginal Relevance)
+- Hybrid retrieval
+- Reranking
+
+**Post-Retrieval**
+- Contextual compression
+
+### Augmentation
+- Improved prompt templating
+- Context window optimization
+- Answer grounding
+
+### Generation
+- Answers with citations
+- Guardrails to reduce hallucination
+
+### System Design
+- Multimodal support
+- Agent-based workflows
+- Conversation memory
+
+---
+
+## Learning Goals
+
+This project demonstrates the fundamentals of building **LLM applications using Retrieval-Augmented Generation**, including:
+
+- document chunking  
+- embeddings  
+- vector search  
+- retrieval pipelines  
+- prompt engineering  
+- LLM integration  
+
+---
+
+## License
+
+This project is intended for **educational and learning purposes**.
