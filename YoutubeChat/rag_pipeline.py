@@ -26,7 +26,8 @@ def build_rag(transcript):
 
     vector_store = FAISS.from_documents(docs, embeddings)
 
-    retriever = vector_store.as_retriever(search_kwargs={"k": TOP_K})
+    # retriever = vector_store.as_retriever(search_kwargs={"k": TOP_K})
+    retriever = vector_store.as_retriever(search_type="mmr", search_kwargs={"k": TOP_K, "lambda_mult": 0.5})
 
     llm = HuggingFaceEndpoint(
         repo_id=LLM_MODEL,
@@ -39,19 +40,36 @@ def build_rag(transcript):
 
     prompt = PromptTemplate(
         template="""
-You are a helpful assistant.
+    You are an assistant answering questions about a YouTube video using the provided transcript.
 
-Use ONLY the provided context to answer.
+    Follow these rules strictly:
 
-Context:
-{context}
+    1. Base your answer ONLY on the provided context.
+    2. You may summarize or combine information from the context.
+    3. Do NOT use outside knowledge.
+    4. Keep the answer concise (1–3 sentences).
 
-Question:
-{question}
-""",
+    If the context does NOT contain enough information to answer the question, respond EXACTLY with:
+
+    The video does not contain information to answer this question.
+
+    If the question is unrelated to the video topic, respond EXACTLY with:
+
+    This question is not related to the content of the video.
+
+    Do NOT explain your reasoning.
+    Do NOT add extra sentences after the response.
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+
+    Answer:
+    """,
         input_variables=["context", "question"]
     )
-
     def format_docs(docs):
         return "\n\n".join(doc.page_content for doc in docs)
 
